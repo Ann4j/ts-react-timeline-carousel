@@ -1,9 +1,5 @@
-import TimelineCarousel from './components/TimelineCarousel'
+import { TimelineCarousel } from './components/TimelineCarousel'
 
 export default function App() {
-  return (
-    <div>
-      <TimelineCarousel />
-    </div>
-  )
+  return <TimelineCarousel />
 }

@@ -1,0 +1,92 @@
+@use '../../styles/variables.scss' as *;
+
+.circle {
+    position: absolute;
+    width: 530px;
+    height: 530px;
+    border: 1px solid $color-border;
+    border-radius: 50%;
+    margin: 0 auto;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+  &__dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: $color-foreground;
+    border: 1px solid $color-border-circle;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0;
+    color: transparent;
+
+    &:hover {
+      width: 56px;
+      height: 56px;
+      background: $color-background;
+      font-size: 20px;
+      color: $color-foreground;
+    }
+  }
+
+  &__dotActive {
+    width: 56px;
+    height: 56px;
+    background: $color-background;
+    font-size: 20px;
+    color: $color-foreground;
+  }
+
+  &__controls {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 16px;
+    z-index: 10000;
+  }
+
+  &__rotateButton {
+    width: 50px;
+    height: 50px;
+    background: $color-background;
+    color: $color-foreground;
+    border: 1px solid $color-border-circle;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      border-top: 2px solid $color-foreground;
+      border-right: 2px solid $color-foreground;
+      transform-origin: center;
+    }
+
+    &:first-child::after {
+      transform: translate(-50%, -50%) rotate(-135deg);
+    }
+
+    &:last-child::after {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+  }
+}

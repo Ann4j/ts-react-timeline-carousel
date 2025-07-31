@@ -29,7 +29,23 @@ export default {
         use: 'ts-loader'
       },
       {
+        test: /\.module\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[name]__[local]___[hash:base64:5]'
+              }
+            }
+          },
+          'sass-loader'
+        ]
+      },
+      {
         test: /\.scss$/,
+        exclude: /\.module\.scss$/,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
@@ -66,7 +82,7 @@ export default {
       failOnError: false
     }),
     new MiniCssExtractPlugin({
-      filename: 'styles.css'
+      filename: '[name].[contenthash].css'
     })
   ],
   devServer: {
