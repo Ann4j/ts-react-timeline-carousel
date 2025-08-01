@@ -1,0 +1,40 @@
+@use '../../styles/variables.scss' as *;
+
+.controls {
+  display: flex;
+  gap: 16px;
+
+
+  &__button {
+    width: 50px;
+    height: 50px;
+    background: $color-background;
+    color: $color-foreground;
+    border: 1px solid $color-border-circle;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      border-top: 2px solid $color-foreground;
+      border-right: 2px solid $color-foreground;
+      transform-origin: center;
+    }
+
+    &:first-child::after {
+      transform: translate(-50%, -50%) rotate(-135deg);
+    }
+
+    &:last-child::after {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+  }
+} 

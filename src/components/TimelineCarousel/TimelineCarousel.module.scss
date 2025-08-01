@@ -4,7 +4,6 @@
   height: 100dvh;
 
   &__container {
-    max-width: 1440px;
     height: 100%;
     padding-left: clamp(20px, 15vw, 320px);
     padding-right: clamp(20px, 10vw, 160px);
@@ -40,9 +39,14 @@
     }
   }
 
-      &__content{
-        padding: clamp(60px, 10vw, 170px) 0 clamp(14px, 10vw, 100px) 0;
-      }
+  &__content {
+    height: 100%;
+    box-sizing: border-box;
+    padding: clamp(60px, 10vw, 170px) 0 clamp(14px, 10vw, 100px) 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
     
   &__title {
     padding-left: clamp(20px, 10vw, 78px);
@@ -53,6 +57,7 @@
     color: $color-foreground;
     display: flex;
     flex-direction: column;
+    margin: 0;
 
     span {
       display: block;

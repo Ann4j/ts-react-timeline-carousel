@@ -7,9 +7,15 @@ const animationDuration = 2
 
 export interface TimelineCircleProps {
   totalDots?: number
+  onActiveIndexChange?: (index: number) => void
+  onRotate?: (handleRotate: (direction: 'clockwise' | 'counterclockwise') => void) => void
 }
 
-export function TimelineCircle({ totalDots = 6 }: TimelineCircleProps) {
+export function TimelineCircle({
+  totalDots = 6,
+  onActiveIndexChange,
+  onRotate
+}: TimelineCircleProps) {
   const circleRef = useRef<HTMLDivElement>(null)
   const dotsRef = useRef<HTMLDivElement[]>([])
   const angleOffset = -(Math.PI * 2) / totalDots
@@ -28,32 +34,32 @@ export function TimelineCircle({ totalDots = 6 }: TimelineCircleProps) {
     })
   }, [totalDots])
 
+  useEffect(() => {
+    if (onActiveIndexChange) {
+      onActiveIndexChange(activeIndex)
+    }
+  }, [activeIndex, onActiveIndexChange])
+
+  useEffect(() => {
+    if (onRotate) {
+      onRotate(handleRotate)
+    }
+  }, [onRotate, handleRotate])
+
   return (
-    <div>
-      <div className={styles.circle__controls}>
-        <button
-          onClick={() => handleRotate('counterclockwise')}
-          className={styles.circle__rotateButton}
-        ></button>
-        <button
-          onClick={() => handleRotate('clockwise')}
-          className={styles.circle__rotateButton}
-        ></button>
-      </div>
-      <div ref={circleRef} className={styles.circle}>
-        {Array.from({ length: totalDots }, (_, index) => (
-          <div
-            key={index}
-            ref={(el) => {
-              if (el) dotsRef.current[index] = el
-            }}
-            className={`${styles.circle__dot} ${index === activeIndex ? styles.circle__dotActive : ''}`}
-            onClick={() => handleDotClick(index)}
-          >
-            {index + 1}
-          </div>
-        ))}
-      </div>
+    <div ref={circleRef} className={styles.circle}>
+      {Array.from({ length: totalDots }, (_, index) => (
+        <div
+          key={index}
+          ref={(el) => {
+            if (el) dotsRef.current[index] = el
+          }}
+          className={`${styles.circle__dot} ${index === activeIndex ? styles.circle__dotActive : ''}`}
+          onClick={() => handleDotClick(index)}
+        >
+          {index + 1}
+        </div>
+      ))}
     </div>
   )
 }
