@@ -2,8 +2,25 @@
 
 .controls {
   display: flex;
-  gap: 16px;
+  gap: 20px;
+  flex-direction: column;
+  padding-left: clamp(20px, 10vw, 78px);
+  margin-bottom: 56px;
 
+  &__counter {
+    font-size: 14px;
+    font-weight: 400;
+    color: $color-foreground;
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  &__wrapper {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
 
   &__button {
     width: 50px;
@@ -22,8 +39,8 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 12px;
-      height: 12px;
+      width: 7px;
+      height: 7px;
       border-top: 2px solid $color-foreground;
       border-right: 2px solid $color-foreground;
       transform-origin: center;
@@ -36,5 +53,15 @@
     &:last-child::after {
       transform: translate(-50%, -50%) rotate(45deg);
     }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  &__buttonDisabled {
+    cursor: not-allowed;
+    opacity: 0.5;
   }
 } 

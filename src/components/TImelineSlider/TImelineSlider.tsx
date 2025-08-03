@@ -20,7 +20,7 @@ interface TimelineSliderProps {
   autoplayDelay?: number
 }
 
-export const TimelineSlider: React.FC<TimelineSliderProps> = ({
+export function TimelineSlider({
   events,
   slidesPerView = 1,
   spaceBetween = 30,
@@ -30,7 +30,7 @@ export const TimelineSlider: React.FC<TimelineSliderProps> = ({
   loop = false,
   autoplay = false,
   autoplayDelay = 3000
-}) => {
+}: TimelineSliderProps) {
   const swiperModules = []
 
   if (navigation) swiperModules.push(Navigation)

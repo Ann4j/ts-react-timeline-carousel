@@ -29,7 +29,7 @@ export default [
     rules: {
       semi: ['error', 'never'],
       quotes: ['error', 'single'],
-      'no-console': 'warn',
+      'no-console': 'off',
       '@typescript-eslint/no-explicit-any': 'off'
     }
   }

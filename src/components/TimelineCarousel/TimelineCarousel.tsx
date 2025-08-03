@@ -2,12 +2,14 @@ import { useState, useRef } from 'react'
 import { TimelineCircle } from '../TimelineCircle'
 import { TimelineControls } from '../TimelineControls'
 import { TimelineSlider } from '../TImelineSlider'
-import { timelineData, getCurrentPeriod } from '../../data/timelineData'
+import { timelineData, getCurrentPeriod, getTotalPeriods } from '../../data/timelineData'
 import * as styles from './TimelineCarousel.module.scss'
+import { TimelinePeriods } from '../TimelinePeriods/TimelinePeriods'
 
 export function TimelineCarousel() {
   const [activeIndex, setActiveIndex] = useState(0)
   const currentPeriod = getCurrentPeriod(activeIndex)
+  const totalPeriods = getTotalPeriods()
   const handleRotateRef = useRef<((direction: 'clockwise' | 'counterclockwise') => void) | null>(
     null
   )
@@ -37,13 +39,18 @@ export function TimelineCarousel() {
             onActiveIndexChange={handleActiveIndexChange}
             onRotate={handleRotateCallback}
           />
+          <TimelinePeriods startYear={currentPeriod.startYear} endYear={currentPeriod.endYear} />
           <div className={styles.timeline__content}>
             <h1 className={styles.timeline__title}>
               <span>Исторические</span>
               <span>даты</span>
             </h1>
             <div>
-              <TimelineControls onRotate={handleRotate} />
+              <TimelineControls
+                onRotate={handleRotate}
+                currentIndex={activeIndex}
+                totalPeriods={totalPeriods}
+              />
               <TimelineSlider
                 events={currentPeriod.events}
                 slidesPerView={'auto'}

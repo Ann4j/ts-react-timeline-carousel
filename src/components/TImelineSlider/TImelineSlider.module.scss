@@ -9,11 +9,12 @@ $color-accent-blue: hsl(219 84% 58%);
   &__container {
     width: 100%;
     height: auto;
-    padding: 20px 0;
+    padding: 20px 0 0 clamp(20px, 10vw, 78px);
   }
 
   &__slide {
     max-width: 320px;
+
   }
 }
 
@@ -41,19 +42,24 @@ $color-accent-blue: hsl(219 84% 58%);
   :global(.swiper-button-next),
   :global(.swiper-button-prev) {
     color: $color-accent-blue;
-    background: #fff;
+    background: #fff; 
     width: 40px;
     height: 40px;
     border-radius: 50%;
     transition: all 0.3s ease;
     box-shadow: 0 0 15px 0 rgba($color-accent-blue, 0.1);
     
-    
     &::after {
-      font-size: 16px;
+      font-size: 12px;
       font-weight: bold;
     }
   }
+  
+  :global(.swiper-button-next.swiper-button-disabled),
+  :global(.swiper-button-prev.swiper-button-disabled) {
+    opacity: 0 !important;
+  }
+  
   
   :global(.swiper-pagination) {
     position: relative;
