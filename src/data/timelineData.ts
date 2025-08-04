@@ -8,7 +8,6 @@ export interface TimelinePeriod {
   startYear: number
   endYear: number
   category: string
-  categoryLabel: string
   events: TimelineEvent[]
 }
 
@@ -17,8 +16,7 @@ export const timelineData: TimelinePeriod[] = [
     id: 1,
     startYear: 1997,
     endYear: 2001,
-    category: 'literature',
-    categoryLabel: 'Литература',
+    category: 'Литература',
     events: [
       {
         year: 1997,
@@ -48,8 +46,7 @@ export const timelineData: TimelinePeriod[] = [
     id: 2,
     startYear: 2001,
     endYear: 2005,
-    category: 'cinema',
-    categoryLabel: 'Кино',
+    category: 'Кино',
     events: [
       {
         year: 2001,
@@ -78,13 +75,12 @@ export const timelineData: TimelinePeriod[] = [
     id: 3,
     startYear: 2005,
     endYear: 2009,
-    category: 'music',
-    categoryLabel: 'Музыка',
+    category: 'Музыка',
     events: [
       {
         year: 2005,
         description:
-          'Группа Coldplay выпускает альбом «X&Y», который становится одним из самых продаваемых альбомов года'
+          'Группа Coldplay выпускает альбом «X&Y», который становится одним из продаваемых альбомов года'
       },
       {
         year: 2006,
@@ -109,8 +105,7 @@ export const timelineData: TimelinePeriod[] = [
     id: 4,
     startYear: 2009,
     endYear: 2013,
-    category: 'gaming',
-    categoryLabel: 'Компьютерные игры',
+    category: 'Компьютерные игры',
     events: [
       {
         year: 2009,
@@ -139,13 +134,11 @@ export const timelineData: TimelinePeriod[] = [
     id: 5,
     startYear: 2013,
     endYear: 2017,
-    category: 'fashion',
-    categoryLabel: 'Мода',
+    category: 'Мода',
     events: [
       {
         year: 2013,
-        description:
-          'Александр Ванг становится креативным директором Balenciaga, привнося современный минимализм'
+        description: 'Александр Ванг становится креативным директором Balenciaga'
       },
       {
         year: 2014,
@@ -169,8 +162,7 @@ export const timelineData: TimelinePeriod[] = [
     id: 6,
     startYear: 2017,
     endYear: 2021,
-    category: 'science',
-    categoryLabel: 'Наука',
+    category: 'Наука',
     events: [
       {
         year: 2017,
@@ -196,15 +188,6 @@ export const timelineData: TimelinePeriod[] = [
       }
     ]
   }
-]
-
-export const categories = [
-  { key: 'literature', label: 'Литература' },
-  { key: 'cinema', label: 'Кино' },
-  { key: 'music', label: 'Музыка' },
-  { key: 'gaming', label: 'Компьютерные игры' },
-  { key: 'fashion', label: 'Мода' },
-  { key: 'science', label: 'Наука' }
 ]
 
 export const getCurrentPeriod = (activeIndex: number): TimelinePeriod => {

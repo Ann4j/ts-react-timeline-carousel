@@ -4,7 +4,7 @@
   display: flex;
   gap: 20px;
   flex-direction: column;
-  padding-left: clamp(20px, 10vw, 78px);
+  padding-left: clamp(20px, 5vw, 78px);
   margin-bottom: 56px;
 
   &__counter {

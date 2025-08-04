@@ -1,10 +1,38 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { TimelineRefs, TimelineAnimationConfig } from './types'
 import { calculateDotPosition, createTimelineUtils } from './utils'
 
 gsap.registerPlugin(MotionPathPlugin)
+
+export const useContentAnimation = (
+  activeIndex: number,
+  animationDuration: number,
+  categoryRef: React.RefObject<HTMLParagraphElement | null>,
+  sliderRef: React.RefObject<HTMLDivElement | null>
+) => {
+  useEffect(() => {
+    if (activeIndex === 0 && !categoryRef.current && !sliderRef.current) {
+      return
+    }
+
+    const elements = []
+    if (categoryRef.current) elements.push(categoryRef.current)
+    if (sliderRef.current) elements.push(sliderRef.current)
+
+    if (elements.length > 0) {
+      gsap.set(elements, { opacity: 0 })
+
+      gsap.to(elements, {
+        opacity: 1,
+        duration: animationDuration,
+        delay: 0.8,
+        ease: 'power2.out'
+      })
+    }
+  }, [activeIndex, animationDuration, categoryRef, sliderRef])
+}
 
 export const useTimelineAnimation = ({
   totalDots,
@@ -86,6 +114,7 @@ export const useTimelineAnimation = ({
 
     gsap.to(tl, {
       progress: snap(tl.progress() + amount),
+      duration: duration * Math.abs(amount),
       modifiers: {
         progress: wrapProgress
       }

@@ -5,11 +5,17 @@ import { TimelineSlider } from '../TImelineSlider'
 import { timelineData, getCurrentPeriod, getTotalPeriods } from '../../data/timelineData'
 import * as styles from './TimelineCarousel.module.scss'
 import { TimelinePeriods } from '../TimelinePeriods/TimelinePeriods'
+import { useContentAnimation } from '../../hooks/useTimelineAnimation'
 
 export function TimelineCarousel() {
   const [activeIndex, setActiveIndex] = useState(0)
   const currentPeriod = getCurrentPeriod(activeIndex)
   const totalPeriods = getTotalPeriods()
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const categoryRef = useRef<HTMLParagraphElement>(null)
+
+  useContentAnimation(activeIndex, 0.6, categoryRef, sliderRef)
+
   const handleRotateRef = useRef<((direction: 'clockwise' | 'counterclockwise') => void) | null>(
     null
   )
@@ -38,6 +44,7 @@ export function TimelineCarousel() {
             totalDots={timelineData.length}
             onActiveIndexChange={handleActiveIndexChange}
             onRotate={handleRotateCallback}
+            categoryRef={categoryRef}
           />
           <TimelinePeriods startYear={currentPeriod.startYear} endYear={currentPeriod.endYear} />
           <div className={styles.timeline__content}>
@@ -51,15 +58,17 @@ export function TimelineCarousel() {
                 currentIndex={activeIndex}
                 totalPeriods={totalPeriods}
               />
-              <TimelineSlider
-                events={currentPeriod.events}
-                slidesPerView={'auto'}
-                spaceBetween={80}
-                navigation={true}
-                pagination={false}
-                scrollbar={false}
-                loop={false}
-              />
+              <div ref={sliderRef}>
+                <TimelineSlider
+                  events={currentPeriod.events}
+                  slidesPerView={'auto'}
+                  spaceBetween={80}
+                  navigation={true}
+                  pagination={false}
+                  scrollbar={false}
+                  loop={false}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Scrollbar, Autoplay } from 'swiper/modules'
 import { TimelineEvent } from '../../data/timelineData'
