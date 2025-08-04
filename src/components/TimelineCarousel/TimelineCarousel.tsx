@@ -64,13 +64,7 @@ export function TimelineCarousel() {
                 <div className={styles.timeline__category}>
                   <p>{currentPeriod.category}</p>
                 </div>
-                <TimelineSlider
-                  events={currentPeriod.events}
-                  slidesPerView={'auto'}
-                  spaceBetween={80}
-                  navigation={true}
-                  loop={false}
-                />
+                <TimelineSlider events={currentPeriod.events} />
               </div>
             </div>
           </div>

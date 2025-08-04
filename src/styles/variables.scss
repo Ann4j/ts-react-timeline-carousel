@@ -2,6 +2,21 @@ $color-background: hsl(228, 29%, 97%);
 $color-foreground: hsl(219, 30%, 37%);
 $color-accent-iris: hsl(239, 82%, 65%);
 $color-accent-fuchsia: hsl(329, 82%, 65%);
+$color-accent-blue: hsl(219 84% 58%);
 $color-border: hsl(219, 30%, 37%, 0.1);
 $color-border-circle: hsl(219, 30%, 37%, 0.5);
 
+$breakpoint-tablet: 1024px;
+$breakpoint-mobile: 678px;
+
+@mixin mobile {
+  @media (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}

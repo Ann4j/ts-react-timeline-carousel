@@ -1,5 +1,4 @@
 @use '../../styles/variables.scss' as *;
-@use '../../styles/breakpoints.scss' as *;
 
 .controls {
   padding-left: clamp(20px, 5vw, 78px);

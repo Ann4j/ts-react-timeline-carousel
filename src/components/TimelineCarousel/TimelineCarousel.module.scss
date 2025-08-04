@@ -1,8 +1,7 @@
 @use '../../styles/variables.scss' as *;
-@use '../../styles/breakpoints.scss' as *;
 
 .timeline {
-  height: 568px;
+  height: 100dvh;
   overflow: hidden;
 
   &__container {

@@ -8,30 +8,28 @@ import * as styles from './TImelineSlider.module.scss'
 interface TimelineSliderProps {
   events: TimelineEvent[]
   slidesPerView?: number | 'auto'
-  spaceBetween?: number
-  navigation?: boolean
   loop?: boolean
 }
 
-export function TimelineSlider({
-  events,
-  slidesPerView = 1,
-  spaceBetween = 50,
-  navigation = true,
-  loop = false
-}: TimelineSliderProps) {
-  const swiperModules = []
-
-  if (navigation) swiperModules.push(Navigation)
-
+export function TimelineSlider({ events }: TimelineSliderProps) {
   return (
     <div className={styles.slider}>
       <Swiper
-        modules={swiperModules}
-        slidesPerView={slidesPerView}
-        spaceBetween={spaceBetween}
-        loop={loop}
-        navigation={navigation}
+        modules={[Navigation]}
+        slidesPerView={'auto'}
+        breakpoints={{
+          320: {
+            spaceBetween: 20
+          },
+          640: {
+            spaceBetween: 25
+          },
+          1024: {
+            spaceBetween: 80
+          }
+        }}
+        loop={false}
+        navigation
         className={styles.slider__container}
       >
         {events.map((event, index) => (
