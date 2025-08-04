@@ -1,19 +1,24 @@
 @use '../../styles/variables.scss' as *;
+@use '../../styles/breakpoints.scss' as *;
 
 .periods {
   display: flex;
   align-items: center;
-  gap: 56px;
+  gap: clamp(20px, 5vw, 56px);
   position: absolute;
   top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
 
+
   &__year {
-    font-size: clamp(56px, 13vw, 200px);
+    font-size: clamp(130px, 14vw, 200px);
     font-weight: 600;
 
+    @include mobile {
+      font-size: clamp(56px, 15vw, 130px);
+    }
   }
 
   &__yearStart {
@@ -22,6 +27,10 @@
 
   &__yearEnd {
     color: $color-accent-iris;
+  }
+
+  @include mobile {
+    top: 32.5%;
   }
    
 }

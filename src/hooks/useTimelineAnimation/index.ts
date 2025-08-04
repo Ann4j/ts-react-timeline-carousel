@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { TimelineRefs, TimelineAnimationConfig } from './types'
@@ -38,9 +38,13 @@ export const useTimelineAnimation = ({
   totalDots,
   radius,
   duration,
-  angleOffset
-}: TimelineAnimationConfig) => {
-  const [activeIndex, setActiveIndex] = useState(0)
+  angleOffset,
+  activeIndex,
+  onActiveIndexChange
+}: TimelineAnimationConfig & {
+  activeIndex: number
+  onActiveIndexChange: (index: number) => void
+}) => {
   const timelineRef = useRef<gsap.core.Timeline | null>(null)
   const trackerRef = useRef<{ item: number }>({ item: 0 })
 
@@ -110,7 +114,7 @@ export const useTimelineAnimation = ({
     const next = trackerRef.current.item
     tl.progress(progress)
 
-    setActiveIndex(next)
+    onActiveIndexChange(next)
 
     gsap.to(tl, {
       progress: snap(tl.progress() + amount),
@@ -134,7 +138,6 @@ export const useTimelineAnimation = ({
   }
 
   return {
-    activeIndex,
     initializeTimeline,
     handleDotClick,
     handleRotate

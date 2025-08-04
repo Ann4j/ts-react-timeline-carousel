@@ -42,6 +42,7 @@ export function TimelineCarousel() {
         <div className={styles.timeline__background}>
           <TimelineCircle
             totalDots={timelineData.length}
+            activeIndex={activeIndex}
             onActiveIndexChange={handleActiveIndexChange}
             onRotate={handleRotateCallback}
             categoryRef={categoryRef}
@@ -52,20 +53,22 @@ export function TimelineCarousel() {
               <span>Исторические</span>
               <span>даты</span>
             </h1>
-            <div>
+            <div className={styles.timeline__wrapper}>
               <TimelineControls
                 onRotate={handleRotate}
+                onIndexChange={handleActiveIndexChange}
                 currentIndex={activeIndex}
                 totalPeriods={totalPeriods}
               />
               <div ref={sliderRef}>
+                <div className={styles.timeline__category}>
+                  <p>{currentPeriod.category}</p>
+                </div>
                 <TimelineSlider
                   events={currentPeriod.events}
                   slidesPerView={'auto'}
                   spaceBetween={80}
                   navigation={true}
-                  pagination={false}
-                  scrollbar={false}
                   loop={false}
                 />
               </div>

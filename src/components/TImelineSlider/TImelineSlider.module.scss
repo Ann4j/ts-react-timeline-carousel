@@ -1,4 +1,5 @@
 @use '../../styles/variables.scss' as *;
+@use '../../styles/breakpoints.scss' as *;
 
 $color-accent-blue: hsl(219 84% 58%);
 
@@ -13,7 +14,7 @@ $color-accent-blue: hsl(219 84% 58%);
   }
 
   &__slide {
-    max-width: 320px;
+    max-width: clamp(200px, 23vw, 320px);
   }
 
 .event {
@@ -22,11 +23,11 @@ $color-accent-blue: hsl(219 84% 58%);
     gap: 15px;
 
     &__year {
-      font-size: clamp(18px, 2.5vw, 24px);
+      font-size: clamp(16px, 2.5vw, 25px);
       color: $color-accent-blue;
       font-family: "Bebas Neue", sans-serif;
       font-weight: 400;
-      line-height: 1;
+      line-height: 1.2;
       margin: 0;
     }
 
@@ -35,7 +36,15 @@ $color-accent-blue: hsl(219 84% 58%);
       color: $color-foreground;
       line-height: 1.5;
       font-weight: 400;
+      margin: 0;
+      padding: 0;
+
+      @include mobile {
+        line-height: 1.45;
+      }
     }
+
+
   }
   
   :global(.swiper-button-next),
@@ -52,30 +61,17 @@ $color-accent-blue: hsl(219 84% 58%);
       font-size: 12px;
       font-weight: bold;
     }
+
+    @include mobile {
+      display: none;
+    }
   }
   
   :global(.swiper-button-next.swiper-button-disabled),
   :global(.swiper-button-prev.swiper-button-disabled) {
-    opacity: 0 !important;
+    opacity: 0;
   }
   
-  
-  :global(.swiper-pagination) {
-    position: relative;
-    margin-top: 20px;
-    
-    .swiper-pagination-bullet {
-      width: 6px;
-      height: 6px;
-      background: $color-foreground;
-      opacity: 0.5;
-      transition: all 0.3s ease;
-      
-      &-active {
-        background: $color-foreground;
-        opacity: 1;
-      }
-    }
-  }
+
   
 }

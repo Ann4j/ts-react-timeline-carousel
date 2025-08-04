@@ -5,13 +5,15 @@ import * as styles from './TimelineCircle.module.scss'
 
 export interface TimelineCircleProps {
   totalDots?: number
-  onActiveIndexChange?: (index: number) => void
+  activeIndex: number
+  onActiveIndexChange: (index: number) => void
   onRotate?: (handleRotate: (direction: 'clockwise' | 'counterclockwise') => void) => void
   categoryRef?: React.RefObject<HTMLParagraphElement | null>
 }
 
 export function TimelineCircle({
   totalDots = 6,
+  activeIndex,
   onActiveIndexChange,
   onRotate,
   categoryRef
@@ -22,11 +24,13 @@ export function TimelineCircle({
   const finalCategoryRef = categoryRef || internalCategoryRef
   const angleOffset = -(Math.PI * 2) / totalDots
 
-  const { activeIndex, initializeTimeline, handleDotClick, handleRotate } = useTimelineAnimation({
+  const { initializeTimeline, handleDotClick, handleRotate } = useTimelineAnimation({
     totalDots,
     radius: 265,
     duration: 3,
-    angleOffset: angleOffset
+    angleOffset: angleOffset,
+    activeIndex,
+    onActiveIndexChange
   })
 
   const currentPeriod = getCurrentPeriod(activeIndex)
@@ -37,12 +41,6 @@ export function TimelineCircle({
       dots: dotContainersRef.current
     })
   }, [totalDots])
-
-  useEffect(() => {
-    if (onActiveIndexChange) {
-      onActiveIndexChange(activeIndex)
-    }
-  }, [activeIndex, onActiveIndexChange])
 
   useEffect(() => {
     if (onRotate) {

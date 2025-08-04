@@ -1,10 +1,8 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination, Scrollbar, Autoplay } from 'swiper/modules'
+import { Navigation } from 'swiper/modules'
 import { TimelineEvent } from '../../data/timelineData'
 import 'swiper/css'
 import 'swiper/css/navigation'
-import 'swiper/css/pagination'
-import 'swiper/css/scrollbar'
 import * as styles from './TImelineSlider.module.scss'
 
 interface TimelineSliderProps {
@@ -12,30 +10,19 @@ interface TimelineSliderProps {
   slidesPerView?: number | 'auto'
   spaceBetween?: number
   navigation?: boolean
-  pagination?: boolean
-  scrollbar?: boolean
   loop?: boolean
-  autoplay?: boolean
-  autoplayDelay?: number
 }
 
 export function TimelineSlider({
   events,
   slidesPerView = 1,
-  spaceBetween = 30,
+  spaceBetween = 50,
   navigation = true,
-  pagination = true,
-  scrollbar = false,
-  loop = false,
-  autoplay = false,
-  autoplayDelay = 3000
+  loop = false
 }: TimelineSliderProps) {
   const swiperModules = []
 
   if (navigation) swiperModules.push(Navigation)
-  if (pagination) swiperModules.push(Pagination)
-  if (scrollbar) swiperModules.push(Scrollbar)
-  if (autoplay) swiperModules.push(Autoplay)
 
   return (
     <div className={styles.slider}>
@@ -45,9 +32,6 @@ export function TimelineSlider({
         spaceBetween={spaceBetween}
         loop={loop}
         navigation={navigation}
-        pagination={pagination ? { clickable: true } : false}
-        scrollbar={scrollbar ? { draggable: true, hide: false } : false}
-        autoplay={autoplay ? { delay: autoplayDelay, disableOnInteraction: false } : false}
         className={styles.slider__container}
       >
         {events.map((event, index) => (

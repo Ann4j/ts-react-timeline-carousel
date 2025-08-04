@@ -1,11 +1,16 @@
 @use '../../styles/variables.scss' as *;
+@use '../../styles/breakpoints.scss' as *;
 
 .controls {
-  display: flex;
-  gap: 20px;
-  flex-direction: column;
   padding-left: clamp(20px, 5vw, 78px);
-  margin-bottom: 56px;
+  display: flex;
+  position: relative;
+
+  &__content {
+    display: flex;
+    gap: clamp(8px, 2vw, 20px);
+    flex-direction: column;
+  }
 
   &__counter {
     font-size: 14px;
@@ -18,13 +23,13 @@
 
   &__wrapper {
     display: flex;
-    gap: 20px;
+    gap: clamp(8px, 2vw, 20px);
     align-items: center;
   }
 
   &__button {
-    width: 50px;
-    height: 50px;
+    width: clamp(25px, 5vw, 50px);
+    height: clamp(25px, 5vw, 50px);
     background: $color-background;
     color: $color-foreground;
     border: 1px solid $color-border-circle;
@@ -44,6 +49,11 @@
       border-top: 2px solid $color-foreground;
       border-right: 2px solid $color-foreground;
       transform-origin: center;
+
+      @include mobile {
+        width: 3px;
+        height: 3px;
+      }
     }
 
     &:first-child::after {
@@ -63,5 +73,42 @@
   &__buttonDisabled {
     cursor: not-allowed;
     opacity: 0.5;
+  }
+
+  &__pagination {
+    display: none;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    @include mobile {
+      display: flex;
+    }
+  }
+
+  &__paginationDot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $color-border-circle;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    padding: 0;
+
+
+  }
+
+  &__paginationDotActive {
+    background: $color-foreground;
+  }
+
+  @include mobile {
+    order: 2;
   }
 } 

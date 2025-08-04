@@ -13,36 +13,32 @@ export function TimelinePeriods({ startYear, endYear }: TimelinePeriodsProps) {
   const prevStartYear = useRef(startYear)
   const prevEndYear = useRef(endYear)
 
-  useEffect(() => {
-    if (startYearRef.current && startYear !== prevStartYear.current) {
+  const animateYearChange = (
+    elementRef: React.RefObject<HTMLHeadingElement | null>,
+    newYear: number,
+    prevYearRef: React.MutableRefObject<number>
+  ) => {
+    if (elementRef.current && newYear !== prevYearRef.current) {
       gsap.fromTo(
-        startYearRef.current,
-        { innerText: prevStartYear.current },
+        elementRef.current,
+        { innerText: prevYearRef.current },
         {
-          innerText: startYear,
+          innerText: newYear,
           duration: 1,
           ease: 'power2.out',
           snap: { innerText: 1 }
         }
       )
-      prevStartYear.current = startYear
+      prevYearRef.current = newYear
     }
+  }
+
+  useEffect(() => {
+    animateYearChange(startYearRef, startYear, prevStartYear)
   }, [startYear])
 
   useEffect(() => {
-    if (endYearRef.current && endYear !== prevEndYear.current) {
-      gsap.fromTo(
-        endYearRef.current,
-        { innerText: prevEndYear.current },
-        {
-          innerText: endYear,
-          duration: 1,
-          ease: 'power2.out',
-          snap: { innerText: 1 }
-        }
-      )
-      prevEndYear.current = endYear
-    }
+    animateYearChange(endYearRef, endYear, prevEndYear)
   }, [endYear])
 
   return (

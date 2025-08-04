@@ -2,12 +2,17 @@
 @use '../../styles/breakpoints.scss' as *;
 
 .timeline {
-  height: 100dvh;
+  height: 568px;
+  overflow: hidden;
 
   &__container {
     height: 100%;
     padding-left: clamp(100px, 17vw, 320px);
     padding-right: clamp(100px, 10vw, 160px);
+
+    @include tablet {
+    padding: 0;
+    }
     
   }
 
@@ -22,6 +27,10 @@
       content: "";
       position: absolute;
       background-color: $color-border;
+
+      @include mobile {
+        display: none;
+      }
     }
 
     &::before {
@@ -39,15 +48,35 @@
       height: 100%;
       transform: translateX(-50%);
     }
+
+    @include tablet {
+      border-left: none;
+      border-right: none;
+    }
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+
+    @include mobile {
+      gap: 78px;
+    }
   }
 
   &__content {
     height: 100%;
     box-sizing: border-box;
-    padding: clamp(60px, 10vw, 170px) 0 clamp(14px, 10vw, 100px) 0;
+    padding-top: clamp(60px, 10vw, 170px);
+    padding-bottom:  clamp(60px, 4vw, 100px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    @include mobile {
+      padding-bottom:  clamp(14px, 4vw, 60px);
+    }
   }
     
   &__title {
@@ -63,6 +92,32 @@
     line-height: 1.2;
 
     span {
+      display: block;
+    }
+
+    @include tablet {
+      border-left: none;
+    }
+  }
+
+  &__category {
+    display: none;
+    padding: 0 20px;
+    margin-bottom: 20px;
+
+
+    p {
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      font-weight: 700;
+      color: $color-foreground;
+      border-bottom: 1px solid $color-border;
+      padding-bottom: 20px;
+    }
+
+
+    @include mobile {
       display: block;
     }
   }

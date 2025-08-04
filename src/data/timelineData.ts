@@ -105,7 +105,7 @@ export const timelineData: TimelinePeriod[] = [
     id: 4,
     startYear: 2009,
     endYear: 2013,
-    category: 'Компьютерные игры',
+    category: 'Игры',
     events: [
       {
         year: 2009,
