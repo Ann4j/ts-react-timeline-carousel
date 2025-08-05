@@ -8,6 +8,11 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 export default {
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  },
   mode: 'development',
   entry: './src/index.tsx',
   output: {
@@ -96,4 +101,4 @@ export default {
     historyApiFallback: true
   },
   devtool: 'eval-source-map'
-} 
+}

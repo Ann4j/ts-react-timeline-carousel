@@ -1,10 +1,7 @@
 import { useRef, useCallback } from 'react'
 import { gsap } from 'gsap'
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import type { TimelineRefs, ContentAnimationConfig, CircleAnimationConfig } from './types'
 import { calculateDotPosition, createTimelineUtils } from './utils'
-
-gsap.registerPlugin(MotionPathPlugin)
 
 export function useContentAnimation({
   animationDuration,
