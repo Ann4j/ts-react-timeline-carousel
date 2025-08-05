@@ -1,22 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { RefObject, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import * as styles from './TimelinePeriods.module.scss'
 
-export interface TimelinePeriodsProps {
-  startYear: number
-  endYear: number
-}
-
-export function TimelinePeriods({ startYear, endYear }: TimelinePeriodsProps) {
-  const startYearRef = useRef<HTMLHeadingElement>(null)
-  const endYearRef = useRef<HTMLHeadingElement>(null)
+export function TimelinePeriods({ startYear, endYear }: { startYear: number; endYear: number }) {
+  const startYearRef = useRef(null)
+  const endYearRef = useRef(null)
   const prevStartYear = useRef(startYear)
   const prevEndYear = useRef(endYear)
 
   const animateYearChange = (
-    elementRef: React.RefObject<HTMLHeadingElement | null>,
+    elementRef: RefObject<HTMLHeadingElement | null>,
     newYear: number,
-    prevYearRef: React.MutableRefObject<number>
+    prevYearRef: RefObject<number>
   ) => {
     if (elementRef.current && newYear !== prevYearRef.current) {
       gsap.fromTo(

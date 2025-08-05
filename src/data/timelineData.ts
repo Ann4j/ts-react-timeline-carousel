@@ -1,17 +1,4 @@
-export interface TimelineEvent {
-  year: number
-  description: string
-}
-
-export interface TimelinePeriod {
-  id: number
-  startYear: number
-  endYear: number
-  category: string
-  events: TimelineEvent[]
-}
-
-export const timelineData: TimelinePeriod[] = [
+export const timelineData = [
   {
     id: 1,
     startYear: 1997,
@@ -190,10 +177,5 @@ export const timelineData: TimelinePeriod[] = [
   }
 ]
 
-export const getCurrentPeriod = (activeIndex: number): TimelinePeriod => {
-  return timelineData[activeIndex] || timelineData[0]
-}
-
-export const getTotalPeriods = (): number => {
-  return timelineData.length
-}
+export type TimelineEvent = (typeof timelineData)[number]['events'][number]
+export type TimelinePeriod = (typeof timelineData)[number]

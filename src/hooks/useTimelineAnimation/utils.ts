@@ -1,10 +1,13 @@
-export const calculateDotPosition = (
-  index: number,
-  totalDots: number,
-  radius: number,
-  angleOffset: number
-) => {
-  const angle = (index / totalDots) * Math.PI * 2 + angleOffset
+export function calculateDotPosition({
+  index,
+  totalDots,
+  radius
+}: {
+  index: number
+  totalDots: number
+  radius: number
+}) {
+  const angle = (index / totalDots) * Math.PI * 2 + -(Math.PI * 2) / totalDots
   return {
     x: Math.cos(angle) * radius,
     y: Math.sin(angle) * radius
@@ -15,9 +18,7 @@ export const createTimelineUtils = (totalDots: number) => {
   const itemStep = 1 / totalDots
 
   const wrapProgress = (progress: number) => {
-    while (progress < 0) progress += 1
-    while (progress >= 1) progress -= 1
-    return progress
+    return ((progress % 1) + 1) % 1
   }
 
   const snap = (progress: number) => {
@@ -25,9 +26,7 @@ export const createTimelineUtils = (totalDots: number) => {
   }
 
   const wrapTracker = (item: number) => {
-    while (item < 0) item += totalDots
-    while (item >= totalDots) item -= totalDots
-    return item
+    return ((item % totalDots) + totalDots) % totalDots
   }
 
   return { itemStep, wrapProgress, snap, wrapTracker }

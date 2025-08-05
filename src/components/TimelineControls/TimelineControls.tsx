@@ -1,18 +1,16 @@
 import * as styles from './TimelineControls.module.scss'
 
-export interface TimelineControlsProps {
-  onRotate: (direction: 'clockwise' | 'counterclockwise') => void
-  onIndexChange: (index: number) => void
-  currentIndex: number
-  totalPeriods: number
-}
-
 export function TimelineControls({
   onRotate,
   onIndexChange,
   currentIndex,
   totalPeriods
-}: TimelineControlsProps) {
+}: {
+  onRotate: (direction: 'clockwise' | 'counterclockwise') => void
+  onIndexChange: (index: number) => void
+  currentIndex: number
+  totalPeriods: number
+}) {
   const isFirstIndex = currentIndex === 0
   const isLastIndex = currentIndex === totalPeriods - 1
 

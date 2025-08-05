@@ -1,22 +1,17 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useCallback } from 'react'
 import { gsap } from 'gsap'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import { TimelineRefs, TimelineAnimationConfig } from './types'
+import type { TimelineRefs, ContentAnimationConfig, CircleAnimationConfig } from './types'
 import { calculateDotPosition, createTimelineUtils } from './utils'
 
 gsap.registerPlugin(MotionPathPlugin)
 
-export const useContentAnimation = (
-  activeIndex: number,
-  animationDuration: number,
-  categoryRef: React.RefObject<HTMLParagraphElement | null>,
-  sliderRef: React.RefObject<HTMLDivElement | null>
-) => {
-  useEffect(() => {
-    if (activeIndex === 0 && !categoryRef.current && !sliderRef.current) {
-      return
-    }
-
+export function useContentAnimation({
+  animationDuration,
+  categoryRef,
+  sliderRef
+}: ContentAnimationConfig) {
+  return useCallback(() => {
     const elements = []
     if (categoryRef.current) elements.push(categoryRef.current)
     if (sliderRef.current) elements.push(sliderRef.current)
@@ -31,81 +26,80 @@ export const useContentAnimation = (
         ease: 'power2.out'
       })
     }
-  }, [activeIndex, animationDuration, categoryRef, sliderRef])
+  }, [animationDuration, categoryRef, sliderRef])
 }
 
-export const useTimelineAnimation = ({
+export function useCircleAnimation({
   totalDots,
   radius,
   duration,
-  angleOffset,
   activeIndex,
   onActiveIndexChange
-}: TimelineAnimationConfig & {
-  activeIndex: number
-  onActiveIndexChange: (index: number) => void
-}) => {
+}: CircleAnimationConfig) {
   const timelineRef = useRef<gsap.core.Timeline | null>(null)
   const trackerRef = useRef<{ item: number }>({ item: 0 })
 
   const { itemStep, wrapProgress, snap, wrapTracker } = createTimelineUtils(totalDots)
 
-  const initializeTimeline = (refs: TimelineRefs) => {
-    const { circle, dots } = refs
+  const initializeTimeline = useCallback(
+    (refs: TimelineRefs) => {
+      const { circle, dots } = refs
 
-    if (!circle) return
+      if (!circle) return
 
-    dots.forEach((dot, index) => {
-      const { x, y } = calculateDotPosition(index, totalDots, radius, angleOffset)
-      gsap.set(dot, {
-        x,
-        y,
-        xPercent: -50,
-        yPercent: -50
+      dots.forEach((dot, index) => {
+        const { x, y } = calculateDotPosition({ index, totalDots, radius })
+        gsap.set(dot, {
+          x,
+          y,
+          xPercent: -50,
+          yPercent: -50
+        })
       })
-    })
 
-    const tl = gsap.timeline({ paused: true })
+      const tl = gsap.timeline({ paused: true })
 
-    tl.to(circle, {
-      rotation: 360,
-      transformOrigin: 'center',
-      duration,
-      ease: 'none'
-    })
-
-    tl.to(
-      dots,
-      {
-        rotation: '-=360',
-        transformOrigin: 'center center',
+      tl.to(circle, {
+        rotation: 360,
+        transformOrigin: 'center',
         duration,
         ease: 'none'
-      },
-      0
-    )
+      })
 
-    tl.to(
-      trackerRef.current,
-      {
-        item: totalDots,
-        duration,
-        ease: 'none',
-        modifiers: {
-          item: (value) => wrapTracker(totalDots - Math.round(value))
-        }
-      },
-      0
-    )
+      tl.to(
+        dots,
+        {
+          rotation: '-=360',
+          transformOrigin: 'center center',
+          duration,
+          ease: 'none'
+        },
+        0
+      )
 
-    timelineRef.current = tl
+      tl.to(
+        trackerRef.current,
+        {
+          item: totalDots,
+          duration,
+          ease: 'none',
+          modifiers: {
+            item: (value) => wrapTracker(totalDots - Math.round(value))
+          }
+        },
+        0
+      )
 
-    return () => {
-      tl.kill()
-    }
-  }
+      timelineRef.current = tl
 
-  const moveWheel = (amount: number) => {
+      return () => {
+        tl.kill()
+      }
+    },
+    [totalDots, radius, duration, wrapTracker]
+  )
+
+  const rotateWheel = (amount: number) => {
     if (!timelineRef.current) return
 
     const tl = timelineRef.current
@@ -125,17 +119,25 @@ export const useTimelineAnimation = ({
     })
   }
 
-  const handleDotClick = (index: number) => {
-    const current = activeIndex
-    const diff = index - current
-    const shortestPath =
-      Math.abs(diff) <= totalDots / 2 ? diff : diff > 0 ? diff - totalDots : diff + totalDots
-    moveWheel(-shortestPath / totalDots)
-  }
+  const handleDotClick = useCallback(
+    (index: number) => {
+      const current = activeIndex
+      if (index === current) return
 
-  const handleRotate = (direction: 'clockwise' | 'counterclockwise') => {
-    moveWheel(direction === 'clockwise' ? itemStep : -itemStep)
-  }
+      const diff = index - current
+      const shortestPath =
+        Math.abs(diff) <= totalDots / 2 ? diff : diff > 0 ? diff - totalDots : diff + totalDots
+      rotateWheel(-shortestPath / totalDots)
+    },
+    [activeIndex, totalDots, rotateWheel]
+  )
+
+  const handleRotate = useCallback(
+    (direction: 'clockwise' | 'counterclockwise') => {
+      rotateWheel(direction === 'clockwise' ? itemStep : -itemStep)
+    },
+    [rotateWheel, itemStep]
+  )
 
   return {
     initializeTimeline,
@@ -143,5 +145,3 @@ export const useTimelineAnimation = ({
     handleRotate
   }
 }
-
-export * from './types'

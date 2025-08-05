@@ -1,17 +1,11 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation } from 'swiper/modules'
-import { TimelineEvent } from '../../data/timelineData'
+import type { TimelineEvent } from '../../data/timelineData'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import * as styles from './TImelineSlider.module.scss'
 
-interface TimelineSliderProps {
-  events: TimelineEvent[]
-  slidesPerView?: number | 'auto'
-  loop?: boolean
-}
-
-export function TimelineSlider({ events }: TimelineSliderProps) {
+export function TimelineSlider({ events }: { events: TimelineEvent[] }) {
   return (
     <div className={styles.slider}>
       <Swiper

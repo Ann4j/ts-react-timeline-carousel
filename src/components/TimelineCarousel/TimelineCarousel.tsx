@@ -1,40 +1,44 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { TimelineCircle } from '../TimelineCircle'
 import { TimelineControls } from '../TimelineControls'
 import { TimelineSlider } from '../TImelineSlider'
-import { timelineData, getCurrentPeriod, getTotalPeriods } from '../../data/timelineData'
+import { timelineData } from '../../data/timelineData'
 import * as styles from './TimelineCarousel.module.scss'
 import { TimelinePeriods } from '../TimelinePeriods/TimelinePeriods'
-import { useContentAnimation } from '../../hooks/useTimelineAnimation'
+import { useContentAnimation, useCircleAnimation } from '../../hooks/useTimelineAnimation'
 
 export function TimelineCarousel() {
   const [activeIndex, setActiveIndex] = useState(0)
-  const currentPeriod = getCurrentPeriod(activeIndex)
-  const totalPeriods = getTotalPeriods()
-  const sliderRef = useRef<HTMLDivElement>(null)
-  const categoryRef = useRef<HTMLParagraphElement>(null)
+  const currentPeriod = timelineData[activeIndex] ?? timelineData[0]
+  const totalPeriods = timelineData.length
+  const sliderRef = useRef(null)
+  const categoryRef = useRef(null)
+  const circleRef = useRef(null)
+  const dotContainersRef = useRef([])
 
-  useContentAnimation(activeIndex, 0.6, categoryRef, sliderRef)
+  const animateContent = useContentAnimation({
+    animationDuration: 0.6,
+    categoryRef,
+    sliderRef
+  })
 
-  const handleRotateRef = useRef<((direction: 'clockwise' | 'counterclockwise') => void) | null>(
-    null
-  )
-
-  const handleActiveIndexChange = (index: number) => {
-    setActiveIndex(index)
-  }
-
-  const handleRotateCallback = (
-    handleRotate: (direction: 'clockwise' | 'counterclockwise') => void
-  ) => {
-    handleRotateRef.current = handleRotate
-  }
-
-  const handleRotate = (direction: 'clockwise' | 'counterclockwise') => {
-    if (handleRotateRef.current) {
-      handleRotateRef.current(direction)
+  useEffect(() => {
+    if (activeIndex > 0) {
+      animateContent()
     }
-  }
+  }, [activeIndex, animateContent])
+
+  const handleActiveIndexChange = useCallback((index: number) => {
+    setActiveIndex(index)
+  }, [])
+
+  const { initializeTimeline, handleDotClick, handleRotate } = useCircleAnimation({
+    totalDots: timelineData.length,
+    radius: 265,
+    duration: 3,
+    activeIndex,
+    onActiveIndexChange: handleActiveIndexChange
+  })
 
   return (
     <div className={styles.timeline}>
@@ -43,9 +47,12 @@ export function TimelineCarousel() {
           <TimelineCircle
             totalDots={timelineData.length}
             activeIndex={activeIndex}
-            onActiveIndexChange={handleActiveIndexChange}
-            onRotate={handleRotateCallback}
             categoryRef={categoryRef}
+            circleRef={circleRef}
+            dotContainersRef={dotContainersRef}
+            handleDotClick={handleDotClick}
+            period={currentPeriod}
+            initializeTimeline={initializeTimeline}
           />
           <TimelinePeriods startYear={currentPeriod.startYear} endYear={currentPeriod.endYear} />
           <div className={styles.timeline__content}>
